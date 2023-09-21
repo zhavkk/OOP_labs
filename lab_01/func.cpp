@@ -4,17 +4,16 @@
 std::string func(std::string s){
 
 
-    std::string ans = ""; // Заводим переменную , которая будет содержать результат
+    std::string ans = ""; 
 
-    std::string number = ""; // Заводим переменную, которая будет содержать в себе число
+    std::string number = ""; 
 
 
-    for(char c : s){ // Посимвольно идем по строке s 
-        if(std::isdigit(c)){ // Если символ является цифрой, то добавляем его в переменную number
+    for(char c : s){ 
+        if(std::isdigit(c)){ 
             number+=c;
         }
-        else{ // Нашли символ, который не является цифрой, 
-        //далее если переменная number не пустая, то в ans добавляем number + " " и обнуляем number
+        else{ 
             if(!number.empty()){
                 ans=ans+number+" ";
                 number="";
@@ -22,7 +21,7 @@ std::string func(std::string s){
         }
     }
 
-    if(!number.empty()){//Проверяем граничный случай, при котором возможно нахождение числа в конце строки
+    if(!number.empty()){
         ans=ans+number+" ";
         
     }
