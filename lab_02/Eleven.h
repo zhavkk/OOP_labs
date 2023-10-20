@@ -10,25 +10,29 @@ class Eleven {
         Eleven(const std::initializer_list<unsigned char> &t);
         Eleven(const std::string &t);
         Eleven(const Eleven& other);
+        Eleven copy();
+
         Eleven(Eleven&& other) noexcept;
-        ~Eleven() noexcept; //десткруктор
+        ~Eleven() noexcept;
 
-        //getter
+    
         size_t get_size();
-        std::string get_array();
+        unsigned char* get_array();
+        std::string get_string();
+        int translate_to_10();
+        // static std::string translate_to_11(int number);
 
-        Eleven operator+(const Eleven& other);
-        Eleven operator-(const Eleven& other);
-        Eleven operator=(const Eleven& other);
-        bool operator<(const Eleven& other);
-        bool operator>(const Eleven& other);
-        bool operator==(const Eleven& other);
+        std::string plus(const Eleven& other);
+        std::string minus(const Eleven& other);
+        std::string bigger(const Eleven& other);
+        std::string smaller(const Eleven& other);
+        std::string equall(const Eleven& other);
 
 
 
     private:
         size_t _size;
         unsigned char *_array;
-        void resize(size_t);
+        int to_10;
         
 };

@@ -1,22 +1,11 @@
 #include "Eleven.h"
 #include <cstring>
+#include <cmath>
 //konstruktori
-void Eleven::resize(size_t size) {
-    unsigned char* new_array = new unsigned char[size];
-
-    std::memcpy( new_array, _array, size * sizeof(unsigned char));
-
-    _size = size;
-    delete [] _array;
-    _array = new_array;
-}
-
 Eleven::Eleven(){
-    // _array=new unsigned char;
-    // *_array={'0'};
-    // _size=1;
-    _size=0;
-    _array={nullptr};
+     _array=new unsigned char;
+     *_array={'0'};
+     _size=1;
 }
 
 Eleven::Eleven(const std::size_t &size,unsigned char t){
@@ -80,21 +69,27 @@ Eleven::Eleven(Eleven&& other) noexcept{
 
 Eleven::~Eleven(){
     _size=0;
+
     delete _array;
+    _array={nullptr};
 }
 
-//getteri
 
+std::string Eleven::get_string(){
+    std::string result="";
+    int k=_size;
+    for(int i=0;i<k;++i){
+        result+=_array[i];
+    }
+    return result;
+
+}
 size_t Eleven::get_size(){
     return _size;
 }
 
-std::string Eleven::get_array(){
-    std::string result;
-    for (int i = _size - 1; i >= 0; --i) {
-        result += _array[i];
-    }
-    return result;
+unsigned char * Eleven::get_array(){
+    return _array;
 }
 
 unsigned char to_char(int n) {
@@ -115,52 +110,124 @@ int to_int(unsigned char c) {
     }
 }
 
+ // from 11 to 10 
+ int Eleven::translate_to_10(){
+     to_10 = 0;
+     for (int q = 0; q < _size; q++) {
+         int digit = to_int(_array[q]); //  Преобразуем символ в цифру
 
-Eleven Eleven::operator+(const Eleven &other) {
-    const unsigned char *a, *b; // a > b
-    size_t size_a, size_b;
-    if (_size < other._size) {
-        a = other._array;
-        size_a = other._size;
-        b = _array;
-        size_b = _size;
-    } else {
-        b = other._array;
-        a = _array;
-        size_a = _size;
-        size_b = other._size;
+         to_10 = to_10 * 11 + digit;
+     }
+     return to_10;
+ }
+
+// сложение 
+std::string Eleven::plus(const Eleven& other)
+{
+    int res = this -> to_10 + other.to_10;
+    std::string result;
+    std::string rev_result;
+    int w = res;
+    char dop;
+
+    while (w > 0){
+        if (w % 11 == 10){
+            result.append("A");
+        }
+        if ((w % 11 != 10)){
+            dop = w % 11;
+            result.append(std::to_string(dop));
+        }
+        w /= 11;
     }
 
-    Eleven result = Eleven(size_a, '0');
+    for (int q = result.length() - 1; q >= 0; q--){
+        rev_result += result[q];
+    }
 
-    int remain = 0;
-    for (int i = 0; i < size_b; ++i) {
-        int val = to_int(a[i]) + to_int(b[i]) + remain;
-        result._array[i] = to_char(val % 11);
-        remain = val / 11;
+    return rev_result;
+}
+
+// вычитание
+std::string Eleven::minus(const Eleven& other)
+{
+    std::string result;
+    std::string rev_result;
+
+    if (this -> to_10 < other.to_10){
+        return "negative number";
     }
-    for (int i = size_b; i < size_a; ++i) {
-        int val = to_int(a[i]) + remain;
-        result._array[i] = to_char(val % 11);
-        remain = val / 11;
+
+    if (this -> to_10 == other.to_10){
+        return "0";
     }
-    if (remain > 0) {
-        result.resize(size_a + 1);
-        result._array[result._size - 1] = to_char(remain);
+
+    if (this -> to_10 > other.to_10){
+        int res = this -> to_10 - other.to_10;
+        int w = res;
+        char dop;
+
+        while (w > 0){
+            if (w % 11 == 10){
+                result.append("A");
+            }
+            if ((w % 11 != 10)){
+                dop = w % 11;
+                result.append(std::to_string(dop));
+            }
+            w /= 11;
+        }
+
+        for (int q = result.length() - 1; q >= 0; q--){
+            rev_result += result[q];
+        }
+    }
+        return rev_result;
+}
+
+Eleven Eleven::copy(){
+    Eleven result;
+    size_t rev=_size-1;
+    for(size_t q = 0 ; q<_size;++q){
+        result._array[rev]=_array[q];
+        rev--;
     }
 
     return result;
 }
 
-Eleven Eleven::operator-(const Eleven &other){
+// сравнение >
+std::string Eleven::bigger(const Eleven& other)
+{
+    if (this -> to_10 > other.to_10){
+        return "true";
+    }
 
-
-    
+    else{
+        return "false";
+    }
 }
-// Eleven Eleven::operator-(const Eleven& other){
-//     std::size_t maxsize=std::max(_size,other._size);
-//     Eleven result(maxsize,0);
-//     for(std::size_t i{0};i<maxsize;++i){
-        
-//     }
-// }
+
+// сравнение <
+std::string Eleven::smaller(const Eleven& other)
+{
+    if (this -> to_10 < other.to_10){
+        return "true";
+    }
+
+    else{
+        return "false";
+    }
+}
+
+// сравнение =
+std::string Eleven::equall(const Eleven& other)
+{
+    if (this -> to_10 == other.to_10){
+        return "true";
+    }
+
+    else{
+        return "false";
+    }
+}
