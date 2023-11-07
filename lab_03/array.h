@@ -1,4 +1,3 @@
-#pragma once
 #include "figure.h"
 
 class Array{
@@ -8,15 +7,17 @@ class Array{
         Array();
         Array(size_t size);
 
-        virtual ~Array();
+        ~Array();
             
         void del_figure(size_t index);
         double avg_ploshad(); //srednya ploshad
         
-        Figure* operator[](size_t index) const;
+        Figure *operator[](size_t index);
 
         void changefigures(size_t index, Figure *other);
-
+        size_t get_size(){
+            return _size;
+        }
         
 
     private:

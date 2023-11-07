@@ -1,6 +1,6 @@
 #include "rectangle.h"
 #include <exception>
-#include <math>
+#include <cmath>
 
 Rectangle::Rectangle(){
     x_kords={0.0,0.0,0.0,0.0};
@@ -14,16 +14,18 @@ Rectangle::Rectangle(){
 Rectangle::Rectangle(std::vector<double> &x,std::vector<double> &y){
     mid_x=0;
     mid_y=0;
-    if(x.size()!=4 || y.size()!=4){
-        throw std::invalid_argument("Koords are wrong");
+    if(x_kords.size()!=4){
+        x_kords.resize(4);
     }
-    for(std::vector<double> x : elem){
-        x_kords.push_back(elem);
-        mid_x+=elem;
+    if(y_kords.size()!=4){
+        y_kords.resize(4);
     }
-    for(std::vector<double> y : elem){
-        y_kords.push_back(elem);
-        mid_y+=elem;
+    for (int i = 0; i < 4; ++i)
+    {
+        x_kords[i] = x[i];
+        y_kords[i] = y[i];
+        mid_x += x[i];
+        mid_y += y[i];
     }
     double xA = x_kords[0];
     double yA = y_kords[0];
@@ -44,7 +46,7 @@ Rectangle::Rectangle(std::vector<double> &x,std::vector<double> &y){
 
 }
 
-Square::~Square(){
+Rectangle::~Rectangle(){
     x_kords={};
     y_kords={};
     mid_x=0;
@@ -52,7 +54,7 @@ Square::~Square(){
     surface=0;
 }
 
-bool Square::operator==(Square &other){
+bool Rectangle::operator==(Rectangle &other) const {
     if(surface==other.surface){
         return true;
     }
@@ -61,7 +63,7 @@ bool Square::operator==(Square &other){
 
     }
 }
-Square &operator=(Square &other){
+Rectangle &Rectangle::operator=(Rectangle &other){
     x_kords=other.x_kords;
     y_kords=other.y_kords;
     mid_x=other.mid_x;
@@ -69,7 +71,7 @@ Square &operator=(Square &other){
     surface=other.surface;
     return *this;
 }
-Square &operator=(Square &&other){
+Rectangle &Rectangle::operator=(Rectangle &&other){
     x_kords=std::move(other.x_kords);
     y_kords=std::move(other.y_kords);
     mid_x=std::move(other.mid_x);

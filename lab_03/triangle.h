@@ -6,8 +6,7 @@
 #include <vector>
 class Triangle : public Figure{
 
-    friend std::ostream operator<<(std::ostream& os,Triangle& p);
-    friend std::istream operator>>(std::istream& is,Triangle& p);
+
     
     public:
         Triangle();
@@ -19,7 +18,8 @@ class Triangle : public Figure{
         Triangle &operator=(Triangle &&other);
 
         
-
+        friend std::ostream &operator<<(std::ostream& os,const Triangle& p);
+        friend std::istream &operator>>(std::istream& is,Triangle& p);
 
 
         double ploshad() const override{
@@ -35,7 +35,7 @@ class Triangle : public Figure{
         }
 
 
-    private:
+    protected:
 
         std::vector<double> x_kords;
         std::vector<double> y_kords;
@@ -44,33 +44,28 @@ class Triangle : public Figure{
         double surface;
 
 
-    b
 
 
 };
-
-    inline std::ostream operator<<(std::ostream& os,Triangle& p){
-        for(int i = 0 ; i<3;++i){
-            os<<"Koords  "<<i+1<<": ( "<< p.x_kords[i]<<" , "<<p.y_kords[i]<<")\n";
-        }
-        return os;
-
-
+inline std::ostream& operator<<(std::ostream& os, const Triangle& p) {
+    for (int i = 0; i < 3; ++i) {
+        os << "Koords  " << i + 1 << ": ( " << p.x_kords[i] << " , " << p.y_kords[i] << ")\n";
     }
+    return os;
+}
 
-    inline std::istream operator>>(std::istream& is,Triangle&p){
-        double x,y;
-        std::vector<double> x_k(3),y_k(3);
-        for(int i=0;i<3;++i){
-            std::cout<<"Vvedite koords "<<i+1<<":\n";
-            std::cout<<"x: ";
-            is>>x;
-            std::cout<<"y: ";
-            is>>y;
-            x_k[i]=x;
-            y_k[i]=y;
-        }
-        p=Triangle(x_k,y_k);
-        return is;
-        
+inline std::istream& operator>>(std::istream& is, Triangle& p) {
+    std::vector<double> x_k(3), y_k(3);
+    for (int i = 0; i < 3; ++i) {
+        std::cout << "Vvedite koords " << i + 1 << ":\n";
+        double x, y;
+        std::cout << "x: ";
+        is >> x;
+        std::cout << "y: ";
+        is >> y;
+        x_k[i] = x;
+        y_k[i] = y;
     }
+    p = Triangle(x_k, y_k);
+    return is;
+}

@@ -4,76 +4,46 @@
 #include "triangle.h"
 #include "square.h"
 #include "rectangle.h"
+#include <cmath>
 
-int main(){
+int main() {
+    std::vector<double> tria_x{0.0, 10.0, 0.0};
+    std::vector<double> tria_y{0.0, 0.0, 10.0};
 
-    std::vector<double> tria_x{0,
-                               sqrt(6250 + 1250 * sqrt(5)),
-                               -sqrt(6250 + 1250 * sqrt(5))};
-    std::vector<double> tria_y{100,
-                               -25 + 25 * sqrt(5),
-                               -25 + 25 * sqrt(5)};
+    std::vector<double> rect_x{2, 1, 3, 4};
+    std::vector<double> rect_y{0, 1, 2, 3};
 
-    std::vector<double> rect_x{2,
-                              1,
-                              -1,
-                              -2
-                                };
-    std::vector<double> rect_y{0,
-                              sqrt(3),
-                              sqrt(3),
-                              0};
-                              
-
-    std::vector<double> sq_x{sqrt(2),
-                                1,
-                                0,
-                                1};
-
-    std::vector<double> sq_y{0,
-                                1,
-                                sqrt(2),
-                                -1};
+    std::vector<double> sq_x{1, 2, 3, 4};
+    std::vector<double> sq_y{0, 1, 2, 3};
 
     Triangle p = Triangle(tria_x, tria_y);
     Rectangle h = Rectangle(rect_x, rect_y);
     Square l = Square(sq_x, sq_y);
 
-    // std::cin >> p;
-    // std::cout << p;
-    // point k = h.mid_dot();
-    // std::cout << k.x << " " << k.y;
-    // std::cout << (double)l;
-
     Array q = Array(3);
-    q.change(0, &p);
-    q.change(1, &h);
-    q.change(2, &l);
+    q.changefigures(0, new Triangle(tria_x, tria_y));
+    q.changefigures(1, new Rectangle(rect_x, rect_y));
+    q.changefigures(2, new Square(sq_x, sq_y));
 
-    for (int i = 0; i < 3; ++i)
-    {
-        const Figure *fig = q[i];
-        if (q[i] == nullptr)
-        {
+    for (int i = 0; i < 3; ++i) {
+        const Figure* fig = q[i];
+        if (q[i] == nullptr) {
             std::cout << "The figure has been deleted" << std::endl;
-        }
-        else if (typeid(p) == typeid(*fig))
-        {
-            std::cout << *(Triangle *)q[i];
-        }
-        else if (typeid(h) == typeid(*fig))
-        {
-            std::cout << *(Rectangle *)q[i];
-        }
-        else if (typeid(l) == typeid(*fig))
-        {
-            std::cout << *(Square *)q[i];
+        } else {
+            std::cout << "Figure " << i + 1 << ":\n";
+            std::cout << "Ploshad: " << fig->ploshad() << std::endl;
+            std::pair<double, double> center = fig->center();
+            std::cout << "Center: (" << center.first << ", " << center.second << ")\n";
         }
     }
 
-    std::cout << "\n\n";
+    std::cout << std::endl;
 
     Triangle ex = Triangle();
     ex = p;
-    std::cout << ex;
+    std::cout << "Ploshad of ex: " << ex.ploshad() << std::endl;
+    std::pair<double, double> ex_center = ex.center();
+    std::cout << "Center of ex: (" << ex_center.first << ", " << ex_center.second << ")\n";
+
+    return 0;
 }
