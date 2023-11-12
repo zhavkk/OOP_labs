@@ -7,14 +7,23 @@
 #include <cmath>
 
 int main() {
-    std::vector<double> tria_x{0.0, 10.0, 0.0};
-    std::vector<double> tria_y{0.0, 0.0, 10.0};
+    std::vector<double> tria_x(3), tria_y(3);
+    std::cout << "Enter coordinates for Triangle (x1 y1 x2 y2 x3 y3): ";
+    for (int i = 0; i < 3; ++i) {
+        std::cin >> tria_x[i] >> tria_y[i];
+    }
 
-    std::vector<double> rect_x{2, 1, 3, 4};
-    std::vector<double> rect_y{0, 1, 2, 3};
+    std::vector<double> rect_x(4), rect_y(4);
+    std::cout << "Enter coordinates for Rectangle (x1 y1 x2 y2 x3 y3 x4 y4): ";
+    for (int i = 0; i < 4; ++i) {
+        std::cin >> rect_x[i] >> rect_y[i];
+    }
 
-    std::vector<double> sq_x{1, 2, 3, 4};
-    std::vector<double> sq_y{0, 1, 2, 3};
+    std::vector<double> sq_x(4), sq_y(4);
+    std::cout << "Enter coordinates for Square (x1 y1 x2 y2 x3 y3 x4 y4): ";
+    for (int i = 0; i < 4; ++i) {
+        std::cin >> sq_x[i] >> sq_y[i];
+    }
 
     Triangle p = Triangle(tria_x, tria_y);
     Rectangle h = Rectangle(rect_x, rect_y);
