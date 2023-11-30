@@ -5,38 +5,38 @@
 #include "figure.h"
 
 template <typename Type>
-class Triangle : public Figure{
+class Square : public Figure{
     public:
         size_t _size;
         std::vector<std::pair<Type,Type>> points;
-        Triangle(){
-            _size=3;
-            points={{0,0},{0,0},{0,0}};
+        Square(){
+            _size=4;
+            points={{0,0},{0,0},{0,0},{0,0}};
         }
-        Triangle(std::vector<std::pair<Type,Type>> &p){
-            _size=3;
+        Square(std::vector<std::pair<Type,Type>> &p){
+            _size=4;
             points=p;
         }
-        ~Triangle(){
+        ~Square(){
             _size=0;
             points={};
         }
-        Triangle<Type> &operator=(const Triangle<Type> &other);
-        Triangle<Type> &operator=(const Triangle<Type> &&other);
+        Square<Type> &operator=(const Square<Type> &other);
+        Square<Type> &operator=(const Square<Type> &&other);
         operator double() const override; 
 };
 
 template<typename Type>
-inline std::ostream &operator<<(std::ostream &os, const Triangle<Type> &p){
-    for(size_t i{0};i<3;++i){
+inline std::ostream &operator<<(std::ostream &os, const Square<Type> &p){
+    for(size_t i{0};i<4;++i){
         os<<i+1<<":("<<p.points[i].first<<","<<p.points[i].second <<")\n";
     }
     return os;
 }
 
 template<typename Type>
-inline std::istream &operator>>(std::istream &is,Triangle<Type> &p){
-    for(size_t i{0};i<3;++i){
+inline std::istream &operator>>(std::istream &is,Square<Type> &p){
+    for(size_t i{0};i<4;++i){
         std::cout<<"Vvedite first point";
         is>>p.points[i].first;
         std::cout<<"Vvedite second point";
@@ -46,8 +46,8 @@ inline std::istream &operator>>(std::istream &is,Triangle<Type> &p){
 }
 
 template<typename Type>
-inline bool operator==(const Triangle<Type> &f,const Triangle<Type> &s){
-    for(size_t i{0};i<3;++i){
+inline bool operator==(const Square<Type> &f,const Square<Type> &s){
+    for(size_t i{0};i<4;++i){
         if(f.points[i]!=s.points[i]){
             return false;
         }
@@ -58,20 +58,20 @@ inline bool operator==(const Triangle<Type> &f,const Triangle<Type> &s){
 }       
 
 template<typename Type>
-inline Triangle<Type> &Triangle<Type>::operator=(const Triangle<Type> &other ){
+inline Square<Type> &Square<Type>::operator=(const Square<Type> &other ){
     points=other.points;
     _size=other._size;
     return *this;
 }
 
 template<typename Type>
-inline Triangle<Type> &Triangle<Type>::operator=(const Triangle<Type> &&other){
+inline Square<Type> &Square<Type>::operator=(const Square<Type> &&other){
     points=std::move(other.points);
     _size=std::move(other._size);
     return *this;
 }
 template<typename Type>
-inline Triangle<Type>::operator double() const{
-    return surf<Triangle<Type>,Type>(*this);
+inline Square<Type>::operator double() const{
+    return surf<Square<Type>,Type>(*this);
 }
 
